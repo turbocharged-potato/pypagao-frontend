@@ -1,11 +1,17 @@
 {
-    "extends": "airbnb",
+    "extends": [
+      "airbnb",
+      "prettier"
+    ],
     "env": {
-      "browser": true
+      "browser": true,
+      "jest": true
     },
     "rules": {
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+      "react/jsx-one-expression-per-line": "off",
       "no-param-reassign": ["error", { "props": false }],
-      "no-console": ["log", "warn", "error"]
+      "no-console": "off",
+      "react-app/jsx-a11y/href-no-hash": "off"
     }
 }
