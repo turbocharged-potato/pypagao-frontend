@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {UncontrolledAlert} from 'reactstrap';
+import {Redirect} from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
 import {fetchToken} from '../actions';
 
@@ -27,22 +29,38 @@ class LoginPage extends React.Component {
     const {email, password} = this.state;
     const {dispatch} = this.props;
     dispatch(fetchToken({email, password}));
-    // alert(`Hahaha! Your email is ${email} and password is ${password}`);
   }
 
   render() {
+    const hidden = {display: 'none'};
+    const { error, loggedIn } = this.props;
     return (
-      <LoginForm
-        onLogin={this.handleLogin}
-        onEmailChange={this.handleEmailChange}
-        onPasswordChange={this.handlePasswordChange}
-      />
+      <div>
+        {loggedIn ? <Redirect to="/" /> : null}
+        <UncontrolledAlert color="danger" style={error ? null : hidden}>{error}</UncontrolledAlert>
+        <LoginForm
+          onLogin={this.handleLogin}
+          onEmailChange={this.handleEmailChange}
+          onPasswordChange={this.handlePasswordChange}
+        />
+      </div>
     );
   }
 }
 
 LoginPage.propTypes = {
-  dispatch: PropTypes.func.isRequired
+  dispatch: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  loggedIn: PropTypes.bool.isRequired
 }
 
-export default connect()(LoginPage);
+LoginPage.defaultProps = {
+  error: null
+}
+
+const mapStateToProps = (state) => {
+  const { accessToken, error } = state.tokens;
+  return { error, loggedIn: !!accessToken }
+}
+
+export default connect(mapStateToProps)(LoginPage);

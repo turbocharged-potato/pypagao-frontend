@@ -1,19 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {Provider} from 'react-redux';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {Container} from 'reactstrap';
+import PypagaoNavBar from '../containers/PypagaoNavBar';
 import App from './App';
+import LoginPage from './LoginPage';
 
-const Root = ({store}) => (
-  <Provider store={store}>
-    <Router>
-      <Route path="/:page?" component={App} />
-    </Router>
-  </Provider>
+const Root = () => (
+  <Router>
+    <div>
+      <PypagaoNavBar />
+      <Container fluid>
+        <Route exact path="/" component={App} />
+        <Route path="/login" component={LoginPage} />
+      </Container>
+    </div>
+  </Router>
 );
-
-Root.propTypes = PropTypes.shape({
-  store: PropTypes.shape({}).isRequired,
-}).isRequired;
 
 export default Root;

@@ -1,31 +1,22 @@
 import React from 'react';
-import {
-  Collapse,
-  Container,
-  Nav,
-  Navbar,
-  NavItem,
-  NavLink,
-  NavbarBrand,
-  NavbarToggler,
-} from 'reactstrap';
-import LoginPage from '../containers/LoginPage';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 
-const App = () => (
-  <Container>
-    <Navbar color="dark" dark expand>
-      <NavbarBrand href="#">Pypagao</NavbarBrand>
-      <NavbarToggler />
-      <Collapse navbar>
-        <Nav navbar>
-          <NavItem active>
-            <NavLink href="#">Login</NavLink>
-          </NavItem>
-        </Nav>
-      </Collapse>
-    </Navbar>
-    <LoginPage />
-  </Container>
+const App = ({loggedIn}) => (
+  <div>
+    {loggedIn ? null : <Redirect to="/login" />}
+    Anu
+  </div>
 );
 
-export default App;
+const mapStateToProps = state => {
+  const {accessToken} = state.tokens;
+  return {loggedIn: !!accessToken};
+};
+
+App.propTypes = {
+  loggedIn: PropTypes.bool.isRequired,
+};
+
+export default connect(mapStateToProps)(App);
