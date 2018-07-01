@@ -41,6 +41,25 @@ const register = (state = {}, action) => {
   }
 };
 
-const rootReducer = combineReducers({ tokens, universities, register });
+const user = (state = { name: localStorage.getItem('name') }, action) => {
+  const newState = {};
+  switch (action.type) {
+    case RECEIVE_LOGIN: {
+      const { name } = action;
+      Object.assign(newState, { name });
+      localStorage.setItem('name', name);
+      break;
+    }
+    case LOGOUT:
+      Object.assign(newState, { name: null });
+      localStorage.removeItem('name');
+      break;
+    default:
+      return state;
+  }
+  return { ...state, ...newState };
+};
+
+const rootReducer = combineReducers({ tokens, universities, register, user });
 
 export default rootReducer;

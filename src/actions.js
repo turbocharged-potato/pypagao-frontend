@@ -9,10 +9,11 @@ export const RECEIVE_REGISTER = 'RECEIVE_REGISTER';
 export const LOGOUT = 'LOGOUT';
 export const RECEIVE_UNIVERSITY = 'RECEIVE_UNIVERSITY';
 
-export const receiveLogin = ({ accessToken, error }) => ({
+export const receiveLogin = ({ name, accessToken, error }) => ({
   type: RECEIVE_LOGIN,
   accessToken,
-  error
+  error,
+  name
 });
 
 export const receiveRegister = ({ success, error }) => ({
@@ -42,8 +43,8 @@ export const fetchToken = ({ email, password }) => {
     })
       .then(response => response.json())
       .then(json => {
-        const { error, accessToken } = json;
-        dispatch(receiveLogin({ accessToken, error }));
+        const { name, error, accessToken } = json;
+        dispatch(receiveLogin({ accessToken, error, name }));
       });
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import {UncontrolledAlert} from 'reactstrap';
 import RegisterForm from '../components/RegisterForm';
 import {postRegister, fetchUniversities} from '../actions';
@@ -78,9 +79,10 @@ class RegisterPage extends React.Component {
   render() {
     const {nameValid, emailValid, passwordConfirmationValid} = this.state;
     const formValid = nameValid && emailValid && passwordConfirmationValid;
-    const {error, success, universities} = this.props;
+    const {loggedIn, error, success, universities} = this.props;
     return (
       <div>
+        {loggedIn ? <Redirect to="/" /> : null}
         <h2>Register</h2>
         <UncontrolledAlert color="danger" className={error ? null : 'd-none'}>
           {error}
@@ -115,6 +117,7 @@ RegisterPage.propTypes = {
     }),
   ),
   error: PropTypes.string,
+  loggedIn: PropTypes.bool.isRequired,
   success: PropTypes.bool
 };
 
@@ -125,8 +128,8 @@ RegisterPage.defaultProps = {
 };
 
 const mapStateToProps = state => {
-  const {universities, register} = state;
-  return {universities, ...register};
+  const {universities, register, tokens: {accessToken}} = state;
+  return {universities, loggedIn: !!accessToken, ...register};
 };
 
 export default connect(mapStateToProps)(RegisterPage);
