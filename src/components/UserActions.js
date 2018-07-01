@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {DropdownMenu, DropdownItem, DropdownToggle, UncontrolledDropdown} from 'reactstrap';
+import {withRouter} from 'react-router-dom';
+import {Button, DropdownMenu, DropdownItem, DropdownToggle, UncontrolledDropdown} from 'reactstrap';
 
-const UserActions = ({name, handleLogout}) => (
-  <div className="ml-auto">
+
+const UserActions = ({name, handleLogout, loggedIn}) => {
+  const LoggedInDropdown = () => (
     <UncontrolledDropdown>
       <DropdownToggle caret>
         {name}
@@ -11,13 +13,20 @@ const UserActions = ({name, handleLogout}) => (
       <DropdownMenu right>
         <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
       </DropdownMenu>
-    </UncontrolledDropdown>
-  </div>
-);
+    </UncontrolledDropdown>);
+  const LoginButton = withRouter(({history}) => (
+    <Button onClick={() => history.push('/login')}>Login</Button>
+  ));
+  return (
+    <div className="ml-auto">
+      {loggedIn ? <LoggedInDropdown /> : <LoginButton />}
+    </div>)
+};
 
 UserActions.propTypes = {
   name: PropTypes.string,
-  handleLogout: PropTypes.func.isRequired
+  handleLogout: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
 };
 
 UserActions.defaultProps = {

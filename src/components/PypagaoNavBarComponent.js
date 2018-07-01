@@ -6,7 +6,7 @@ import UserActions from './UserActions';
 const PypagaoNavBarComponent = ({loggedIn, name, handleLogout}) => (
   <Navbar color="dark" dark expand>
     <NavbarBrand href="#">Pypagao</NavbarBrand>
-    {loggedIn ? <UserActions name={name} handleLogout={handleLogout} /> : null}
+    <UserActions loggedIn={loggedIn} name={name} handleLogout={handleLogout} />
   </Navbar>
 );
 

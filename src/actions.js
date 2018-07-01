@@ -4,11 +4,10 @@ const { REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
 
 const BACKEND = `http://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}`;
 
-export const REQUEST_LOGIN = 'REQUEST_LOGIN';
 export const RECEIVE_LOGIN = 'RECEIVE_LOGIN';
+export const RECEIVE_REGISTER = 'RECEIVE_REGISTER';
 export const LOGOUT = 'LOGOUT';
-
-export const requestLogin = () => ({ type: REQUEST_LOGIN });
+export const RECEIVE_UNIVERSITY = 'RECEIVE_UNIVERSITY';
 
 export const receiveLogin = ({ accessToken, error }) => ({
   type: RECEIVE_LOGIN,
@@ -16,14 +15,24 @@ export const receiveLogin = ({ accessToken, error }) => ({
   error
 });
 
+export const receiveRegister = ({ success, error }) => ({
+  type: RECEIVE_REGISTER,
+  success,
+  error
+});
+
 export const logout = () => ({
   type: LOGOUT
 });
 
+export const receiveUniversity = universities => ({
+  type: RECEIVE_UNIVERSITY,
+  universities
+});
+
 export const fetchToken = ({ email, password }) => {
   const payload = { email, password };
-  return dispatch => {
-    dispatch(requestLogin());
+  return dispatch =>
     fetch(`${BACKEND}/authentication/login`, {
       method: 'POST',
       body: JSON.stringify(payload),
@@ -36,5 +45,29 @@ export const fetchToken = ({ email, password }) => {
         const { error, accessToken } = json;
         dispatch(receiveLogin({ accessToken, error }));
       });
-  };
 };
+
+export const postRegister = ({ name, universityId, email, password }) => {
+  const payload = { name, email, password, university_id: universityId };
+  console.log(payload);
+  return dispatch =>
+    fetch(`${BACKEND}/authentication/register`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(async response => {
+      if (response.status === 200) {
+        dispatch(receiveRegister({ success: true, error: null }));
+      } else {
+        const { error } = await response.json();
+        dispatch(receiveRegister({ error, success: false }));
+      }
+    });
+};
+
+export const fetchUniversities = () => dispatch =>
+  fetch(`${BACKEND}/universities`)
+    .then(response => response.json())
+    .then(json => dispatch(receiveUniversity(json)));

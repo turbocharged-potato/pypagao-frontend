@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {UncontrolledAlert} from 'reactstrap';
-import {Redirect} from 'react-router-dom';
+import {Button, UncontrolledAlert} from 'reactstrap';
+import {Redirect, withRouter} from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
 import {fetchToken} from '../actions';
 
@@ -32,17 +32,25 @@ class LoginPage extends React.Component {
   }
 
   render() {
-    const hidden = {display: 'none'};
-    const { error, loggedIn } = this.props;
+    const {error, loggedIn} = this.props;
+    const RegisterButton = withRouter(({history}) => (
+      <Button onClick={() => history.push('/register')}>Register</Button>
+    ));
     return (
       <div>
         {loggedIn ? <Redirect to="/" /> : null}
-        <UncontrolledAlert color="danger" style={error ? null : hidden}>{error}</UncontrolledAlert>
+        <h2>Login</h2>
+        <UncontrolledAlert color="danger" className={error ? null : 'd-none'}>
+          {error}
+        </UncontrolledAlert>
         <LoginForm
           onLogin={this.handleLogin}
           onEmailChange={this.handleEmailChange}
           onPasswordChange={this.handlePasswordChange}
         />
+        <hr />
+        <h2>No account?</h2>
+        <RegisterButton />
       </div>
     );
   }
@@ -51,16 +59,16 @@ class LoginPage extends React.Component {
 LoginPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   error: PropTypes.string,
-  loggedIn: PropTypes.bool.isRequired
-}
+  loggedIn: PropTypes.bool.isRequired,
+};
 
 LoginPage.defaultProps = {
-  error: null
-}
+  error: null,
+};
 
-const mapStateToProps = (state) => {
-  const { accessToken, error } = state.tokens;
-  return { error, loggedIn: !!accessToken }
-}
+const mapStateToProps = state => {
+  const {accessToken, error} = state.tokens;
+  return {error, loggedIn: !!accessToken};
+};
 
 export default connect(mapStateToProps)(LoginPage);
