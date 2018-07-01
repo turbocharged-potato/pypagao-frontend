@@ -1,27 +1,37 @@
-import { combineReducers } from 'redux';
-import { RECEIVE_LOGIN, LOGOUT, RECEIVE_UNIVERSITY, RECEIVE_REGISTER } from './actions';
+import {combineReducers} from 'redux';
+import {
+  RECEIVE_LOGIN,
+  LOGOUT,
+  RECEIVE_UNIVERSITY,
+  RECEIVE_REGISTER,
+  RECEIVE_SEARCH_COURSE,
+  SELECT_COURSE,
+} from './actions';
 
-const tokens = (state = { accessToken: localStorage.getItem('accessToken') }, action) => {
+const tokens = (
+  state = {accessToken: localStorage.getItem('accessToken')},
+  action,
+) => {
   const newState = {};
   switch (action.type) {
     case RECEIVE_LOGIN: {
-      const { error, accessToken } = action;
+      const {error, accessToken} = action;
       if (error) {
-        Object.assign(newState, { error });
+        Object.assign(newState, {error});
       } else {
-        Object.assign(newState, { accessToken });
+        Object.assign(newState, {accessToken});
         localStorage.setItem('accessToken', accessToken);
       }
       break;
     }
     case LOGOUT:
-      Object.assign(newState, { error: null, accessToken: null });
+      Object.assign(newState, {error: null, accessToken: null});
       localStorage.removeItem('accessToken');
       break;
     default:
       return state;
   }
-  return { ...state, ...newState };
+  return {...state, ...newState};
 };
 
 const universities = (state = [], action) => {
@@ -36,36 +46,69 @@ const universities = (state = [], action) => {
 const register = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_REGISTER: {
-      const { success, error } = action;
-      const newState = { success, error };
-      return { ...state, ...newState };
+      const {success, error} = action;
+      const newState = {success, error};
+      return {...state, ...newState};
     }
     default:
       return state;
   }
 };
 
-const user = (state = { name: localStorage.getItem('name') }, action) => {
+const user = (state = {name: localStorage.getItem('name')}, action) => {
   const newState = {};
   switch (action.type) {
     case RECEIVE_LOGIN: {
-      const { name } = action;
+      const {name} = action;
       if (name) {
-        Object.assign(newState, { name });
+        Object.assign(newState, {name});
         localStorage.setItem('name', name);
       }
       break;
     }
     case LOGOUT:
-      Object.assign(newState, { name: null });
+      Object.assign(newState, {name: null});
       localStorage.removeItem('name');
       break;
     default:
       return state;
   }
-  return { ...state, ...newState };
+  return {...state, ...newState};
 };
 
-const rootReducer = combineReducers({ tokens, universities, register, user });
+const selection = (state = {}, action) => {
+  const newState = {};
+  switch (action.type) {
+    case SELECT_COURSE: {
+      const {id} = action;
+      Object.assign(newState, {courseId: id});
+      break;
+    }
+    default:
+      return state;
+  }
+  return {...state, ...newState};
+};
+
+const course = (state = {}, action) => {
+  switch (action.type) {
+    case RECEIVE_SEARCH_COURSE: {
+      const {id, code, error} = action;
+      const newState = error ? {error} : {id, code};
+      return {...state, ...newState};
+    }
+    default:
+      return state;
+  }
+};
+
+const rootReducer = combineReducers({
+  tokens,
+  universities,
+  register,
+  user,
+  selection,
+  course,
+});
 
 export default rootReducer;

@@ -8,6 +8,8 @@ export const RECEIVE_LOGIN = 'RECEIVE_LOGIN';
 export const RECEIVE_REGISTER = 'RECEIVE_REGISTER';
 export const LOGOUT = 'LOGOUT';
 export const RECEIVE_UNIVERSITY = 'RECEIVE_UNIVERSITY';
+export const RECEIVE_SEARCH_COURSE = 'RECEIVE_SEARCH_COURSE';
+export const SELECT_COURSE = 'SELECT_COURSE';
 
 export const receiveLogin = ({ name, accessToken, error }) => ({
   type: RECEIVE_LOGIN,
@@ -29,6 +31,18 @@ export const logout = () => ({
 export const receiveUniversity = universities => ({
   type: RECEIVE_UNIVERSITY,
   universities
+});
+
+export const receiveSearchCourse = ({ id, code, error }) => ({
+  type: RECEIVE_SEARCH_COURSE,
+  id,
+  code,
+  error
+});
+
+export const selectCourse = ({ id }) => ({
+  type: SELECT_COURSE,
+  id
 });
 
 export const fetchToken = ({ email, password }) => {
