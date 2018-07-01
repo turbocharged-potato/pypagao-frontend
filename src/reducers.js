@@ -6,8 +6,12 @@ const tokens = (state = { accessToken: localStorage.getItem('accessToken') }, ac
   switch (action.type) {
     case RECEIVE_LOGIN: {
       const { error, accessToken } = action;
-      Object.assign(newState, { error, accessToken });
-      localStorage.setItem('accessToken', accessToken);
+      if (error) {
+        Object.assign(newState, { error });
+      } else {
+        Object.assign(newState, { accessToken });
+        localStorage.setItem('accessToken', accessToken);
+      }
       break;
     }
     case LOGOUT:
@@ -46,8 +50,10 @@ const user = (state = { name: localStorage.getItem('name') }, action) => {
   switch (action.type) {
     case RECEIVE_LOGIN: {
       const { name } = action;
-      Object.assign(newState, { name });
-      localStorage.setItem('name', name);
+      if (name) {
+        Object.assign(newState, { name });
+        localStorage.setItem('name', name);
+      }
       break;
     }
     case LOGOUT:

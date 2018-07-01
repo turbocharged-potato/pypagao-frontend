@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {withRouter} from 'react-router-dom';
-import {Button, DropdownMenu, DropdownItem, DropdownToggle, UncontrolledDropdown} from 'reactstrap';
-
+import {DropdownMenu, DropdownItem, DropdownToggle, UncontrolledDropdown} from 'reactstrap';
+import LoginButton from './LoginButton';
 
 const UserActions = ({name, handleLogout, loggedIn}) => {
   const LoggedInDropdown = () => (
@@ -14,9 +13,6 @@ const UserActions = ({name, handleLogout, loggedIn}) => {
         <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>);
-  const LoginButton = withRouter(({history}) => (
-    <Button onClick={() => history.push('/login')}>Login</Button>
-  ));
   return (
     <div className="ml-auto">
       {loggedIn ? <LoggedInDropdown /> : <LoginButton />}

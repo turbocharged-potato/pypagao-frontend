@@ -2,7 +2,7 @@ import fetch from 'cross-fetch';
 
 const { REACT_APP_BACKEND_PROTOCOL, REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
 
-const BACKEND = `${REACT_APP_BACKEND_PROTOCOL}://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}`;
+export const BACKEND = `${REACT_APP_BACKEND_PROTOCOL}://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}`;
 
 export const RECEIVE_LOGIN = 'RECEIVE_LOGIN';
 export const RECEIVE_REGISTER = 'RECEIVE_REGISTER';
@@ -44,7 +44,7 @@ export const fetchToken = ({ email, password }) => {
       .then(response => response.json())
       .then(json => {
         const { name, error, accessToken } = json;
-        dispatch(receiveLogin({ accessToken, error, name }));
+        dispatch(receiveLogin(error ? { error } : { accessToken, name }));
       });
 };
 
