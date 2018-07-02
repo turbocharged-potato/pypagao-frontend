@@ -9,7 +9,11 @@ export const RECEIVE_REGISTER = 'RECEIVE_REGISTER';
 export const LOGOUT = 'LOGOUT';
 export const RECEIVE_UNIVERSITY = 'RECEIVE_UNIVERSITY';
 export const RECEIVE_SEARCH_COURSE = 'RECEIVE_SEARCH_COURSE';
+export const RECEIVE_SEMESTERS = 'RECEIVE_SEMESTERS';
+export const RECEIVE_PAPERS = 'RECEIVE_PAPERS';
 export const SELECT_COURSE = 'SELECT_COURSE';
+export const SELECT_SEMESTER = 'SELECT_SEMESTER';
+export const SELECT_PAPER = 'SELECT_PAPER';
 
 export const receiveLogin = ({ name, accessToken, error }) => ({
   type: RECEIVE_LOGIN,
@@ -40,8 +44,28 @@ export const receiveSearchCourse = ({ id, code, error }) => ({
   error
 });
 
+export const receiveSemesters = ({ semesters }) => ({
+  type: RECEIVE_SEMESTERS,
+  semesters
+});
+
+export const receivePapers = ({ papers }) => ({
+  type: RECEIVE_PAPERS,
+  papers
+});
+
 export const selectCourse = ({ id }) => ({
   type: SELECT_COURSE,
+  id
+});
+
+export const selectSemester = ({ id }) => ({
+  type: SELECT_SEMESTER,
+  id
+});
+
+export const selectPaper = ({ id }) => ({
+  type: SELECT_PAPER,
   id
 });
 
