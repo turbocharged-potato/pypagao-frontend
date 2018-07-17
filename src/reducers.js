@@ -81,7 +81,7 @@ const selection = (state = {}, action) => {
   const newState = {};
   switch (action.type) {
     case SELECT_COURSE: {
-      const { id } = action;
+      const { id, code } = action;
       Object.assign(newState, { courseId: id });
       break;
     }
@@ -105,7 +105,7 @@ const course = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_SEARCH_COURSE: {
       const { id, code, error } = action;
-      const newState = error ? { error } : { id, code };
+      const newState = { id, code, error };
       return { ...state, ...newState };
     }
     default:

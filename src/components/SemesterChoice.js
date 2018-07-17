@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Form, FormGroup} from 'reactstrap';
+import { Button, Form, FormGroup } from 'reactstrap';
 
-const SemesterForm = ({disabled, onAdd, onChoose, semesters}) => (
+const SemesterForm = ({ disabled, onAdd, onChoose, semesters }) => (
   <Form>
     <FormGroup>
       {semesters.map(semester => (
-        <Button
-          onClick={() => onChoose(semester)}
-          disabled={disabled}
-          className="m-1">
+        <Button onClick={() => onChoose(semester)} disabled={disabled} className="m-1">
           {semester.start_year}/{semester.end_year} Semester {semester.number}
         </Button>
       ))}
-      <Button onClick={onAdd} color="primary" disabled={disabled}>+</Button>
+      <Button onClick={onAdd} color="primary" disabled={disabled}>
+        +
+      </Button>
     </FormGroup>
   </Form>
 );
@@ -26,13 +25,13 @@ SemesterForm.propTypes = {
     PropTypes.shape({
       start_year: PropTypes.number.isRequired,
       end_year: PropTypes.number.isRequired,
-      number: PropTypes.number.isRequired,
-    }),
-  ),
+      number: PropTypes.number.isRequired
+    })
+  )
 };
 
 SemesterForm.defaultProps = {
-  semesters: [],
+  semesters: []
 };
 
 export default SemesterForm;

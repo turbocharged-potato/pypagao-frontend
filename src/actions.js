@@ -1,8 +1,23 @@
 import fetch from 'cross-fetch';
+import querystring from 'querystring';
 
 const { REACT_APP_BACKEND_PROTOCOL, REACT_APP_BACKEND_HOST, REACT_APP_BACKEND_PORT } = process.env;
 
 export const BACKEND = `${REACT_APP_BACKEND_PROTOCOL}://${REACT_APP_BACKEND_HOST}:${REACT_APP_BACKEND_PORT}`;
+
+const fetchAuthenticated = (url, opts = {}) => {
+  // TODO: Add code to handle token expiry
+  const accessToken = localStorage.getItem('accessToken');
+  if (!opts.headers) {
+    opts.headers = {};
+  }
+  Object.assign(opts.headers, {
+    Authorization: `Bearer ${accessToken}`,
+    'Content-Type': 'application/json'
+  });
+  console.log(opts);
+  return fetch(url, opts);
+};
 
 export const RECEIVE_LOGIN = 'RECEIVE_LOGIN';
 export const RECEIVE_REGISTER = 'RECEIVE_REGISTER';
@@ -86,27 +101,59 @@ export const fetchToken = ({ email, password }) => {
       });
 };
 
-export const postRegister = ({ name, universityId, email, password }) => {
+export const postRegister = ({ name, universityId, email, password }) => dispatch => {
   const payload = { name, email, password, university_id: universityId };
   console.log(payload);
-  return dispatch =>
-    fetch(`${BACKEND}/authentication/register`, {
-      method: 'POST',
-      body: JSON.stringify(payload),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(async response => {
-      if (response.status === 200) {
-        dispatch(receiveRegister({ success: true, error: null }));
-      } else {
-        const { error } = await response.json();
-        dispatch(receiveRegister({ error, success: false }));
-      }
-    });
+  fetch(`${BACKEND}/authentication/register`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(async response => {
+    if (response.status === 200) {
+      dispatch(receiveRegister({ success: true, error: null }));
+    } else {
+      const { error } = await response.json();
+      dispatch(receiveRegister({ error, success: false }));
+    }
+  });
 };
 
 export const fetchUniversities = () => dispatch =>
   fetch(`${BACKEND}/universities`)
     .then(response => response.json())
     .then(json => dispatch(receiveUniversity(json)));
+
+export const searchCourse = ({ codeToSearch }) => dispatch => {
+  const payload = querystring.stringify({ code: codeToSearch });
+  fetchAuthenticated(`${BACKEND}/courses?${payload}`, {
+    method: 'GET'
+  })
+    .then(response => response.json())
+    .then(json => {
+      if (!json) {
+        dispatch(receiveSearchCourse({ error: 'Not found' }));
+        return;
+      }
+      const { id, code } = json;
+      dispatch(selectCourse({ id }));
+      dispatch(receiveSearchCourse({ id, code }));
+    });
+};
+
+export const createCourse = ({ codeToCreate }) => dispatch => {
+  const payload = { code: codeToCreate };
+  fetchAuthenticated(`${BACKEND}/courses`, {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  })
+    .then(response => response.json())
+    .then(json => {
+      const { error, id, code } = json;
+      if (!error) {
+        dispatch(selectCourse({ id }));
+      }
+      dispatch(receiveSearchCourse({ id, code, error }));
+    });
+};

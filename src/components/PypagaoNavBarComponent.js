@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Navbar, NavbarBrand} from 'reactstrap';
+import { Navbar, NavbarBrand } from 'reactstrap';
 import UserActions from './UserActions';
 
-const PypagaoNavBarComponent = ({loggedIn, name, handleLogout}) => (
+const PypagaoNavBarComponent = ({ loggedIn, name, handleLogout }) => (
   <Navbar color="dark" dark expand>
     <NavbarBrand href="#">Pypagao</NavbarBrand>
     <UserActions loggedIn={loggedIn} name={name} handleLogout={handleLogout} />
@@ -13,11 +13,11 @@ const PypagaoNavBarComponent = ({loggedIn, name, handleLogout}) => (
 PypagaoNavBarComponent.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   handleLogout: PropTypes.func.isRequired,
-  name: PropTypes.string,
+  name: PropTypes.string
 };
 
 PypagaoNavBarComponent.defaultProps = {
-  name: null,
+  name: null
 };
 
 export default PypagaoNavBarComponent;

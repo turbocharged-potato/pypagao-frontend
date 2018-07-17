@@ -1,23 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
-import MainPage from './MainPage';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import CoursePage from './CoursePage';
+import SemesterPage from './SemesterPage';
 
-const App = ({loggedIn}) => (
+const App = () => (
   <div>
-    {loggedIn ? null : <Redirect to="/login" />}
-    <MainPage />
+    <Switch>
+      <Route exact path="/" component={null} />
+      <Route exact path="/course" component={CoursePage} />
+      <Route path="/semester/:courseid" component={SemesterPage} />
+    </Switch>
   </div>
 );
 
-const mapStateToProps = state => {
-  const {accessToken} = state.tokens;
-  return {loggedIn: !!accessToken};
-};
-
-App.propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
-};
-
-export default connect(mapStateToProps)(App);
+export default App;

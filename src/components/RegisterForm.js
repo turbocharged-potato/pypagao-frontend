@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Form, FormFeedback, FormGroup, Label, Input} from 'reactstrap';
+import { Button, Form, FormFeedback, FormGroup, Label, Input } from 'reactstrap';
 
 const RegisterForm = ({
   onRegister,
@@ -46,12 +46,7 @@ const RegisterForm = ({
     </FormGroup>
     <FormGroup>
       <Label for="password">Password</Label>
-      <Input
-        type="password"
-        id="password"
-        placeholder="Password"
-        onChange={onPasswordChange}
-      />
+      <Input type="password" id="password" placeholder="Password" onChange={onPasswordChange} />
     </FormGroup>
     <FormGroup>
       <Label for="password_confirmation">Password Confirmation</Label>
@@ -80,8 +75,8 @@ RegisterForm.propTypes = {
   universities: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-    }).isRequired,
+      id: PropTypes.number.isRequired
+    }).isRequired
   ),
   isValid: PropTypes.bool.isRequired
 }.isRequired;

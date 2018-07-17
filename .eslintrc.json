@@ -13,7 +13,7 @@
       "no-param-reassign": ["error", { "props": false }],
       "no-console": "off",
       "react-app/jsx-a11y/href-no-hash": "off",
-      "react/jsx-closing-bracket-location": ["error", "after-props"],
+      "react/jsx-closing-bracket-location": "off",
       "quotes": ["error", "single"]
     }
 }

@@ -24,7 +24,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "prettier --print-width 100 --write src/*.js && eslint --fix src/*.js",
+    "lint": "prettier --print-width 100 --write 'src/**/*.js' && eslint --fix 'src/**/*.js'",
     "prepush": "yarn lint"
   },
   "devDependencies": {
