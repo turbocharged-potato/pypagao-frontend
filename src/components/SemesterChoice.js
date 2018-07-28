@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, FormGroup } from 'reactstrap';
 
-const SemesterForm = ({ disabled, onAdd, onChoose, semesters }) => (
+const SemesterChoice = ({ disabled, onAdd, onChoose, semesters }) => (
   <Form>
     <FormGroup>
       {semesters.map(semester => (
@@ -17,8 +17,8 @@ const SemesterForm = ({ disabled, onAdd, onChoose, semesters }) => (
   </Form>
 );
 
-SemesterForm.propTypes = {
-  disabled: PropTypes.bool.isRequired,
+SemesterChoice.propTypes = {
+  disabled: PropTypes.bool,
   onChoose: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   semesters: PropTypes.arrayOf(
@@ -30,8 +30,9 @@ SemesterForm.propTypes = {
   )
 };
 
-SemesterForm.defaultProps = {
+SemesterChoice.defaultProps = {
+  disabled: false,
   semesters: []
 };
 
-export default SemesterForm;
+export default SemesterChoice;

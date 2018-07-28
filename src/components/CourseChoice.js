@@ -27,14 +27,16 @@ const CourseChoice = ({ course, disabled, onSubmit, onCodeChange, onAdd }) => (
 CourseChoice.propTypes = {
   course: PropTypes.string,
   disabled: PropTypes.bool,
-  onSubmit: PropTypes.func.isRequired,
-  onCodeChange: PropTypes.func.isRequired,
-  onAdd: PropTypes.func.isRequired
+  onSubmit: PropTypes.func,
+  onCodeChange: PropTypes.func,
+  onAdd: PropTypes.func,
 };
 
 CourseChoice.defaultProps = {
   disabled: false,
-  course: ''
+  course: '',
+  onSubmit: () => {},
+  onCodeChange: () => {}
 };
 
 export default CourseChoice;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import PypagaoNavBar from './PypagaoNavBar';
 import App from './App';
@@ -7,8 +7,6 @@ import AppRedirector from './AppRedirector';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import VerifyPage from './VerifyPage';
-
-const RedirectToMain = () => <Redirect to="/" />;
 
 const Root = () => (
   <Router>

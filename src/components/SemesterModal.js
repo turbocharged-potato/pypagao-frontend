@@ -30,7 +30,7 @@ const SemesterModal = ({
         <FormGroup>
           <Label>Semester</Label>
           <InputGroup>
-            <Input type="number" id="start_year" placeHolder="2017" onChange={onStartYearChange} />
+            <Input type="number" id="start_year" placeholder="2017" onChange={onStartYearChange} />
             <InputGroupAddon className="input-group-prepend input-group-append">
               <InputGroupText>/</InputGroupText>
             </InputGroupAddon>

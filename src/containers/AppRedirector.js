@@ -27,8 +27,8 @@ const mapStateToProps = state => {
 
 AppRedirector.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
-  courseId: PropTypes.number,
-  semesterId: PropTypes.number,
+  courseId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  semesterId: PropTypes.string,
   paperId: PropTypes.number
 };
 

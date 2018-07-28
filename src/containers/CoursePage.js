@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { Alert } from 'reactstrap';
 import CourseChoice from '../components/CourseChoice';
 import CourseModal from '../components/CourseModal';
@@ -53,7 +52,7 @@ class CoursePage extends React.Component {
 
   render() {
     const { courseModalOpen } = this.state;
-    const { courseId, error } = this.props;
+    const { error } = this.props;
     return (
       <div>
         <Alert color="danger" className={error ? null : 'd-none'}>
@@ -77,19 +76,16 @@ class CoursePage extends React.Component {
 }
 
 CoursePage.propTypes = {
-  courseId: PropTypes.number,
   error: PropTypes.string
 };
 
 CoursePage.defaultProps = {
-  courseId: null,
   error: null
 };
 
 const mapStateToProps = state => {
-  const { courseId } = state.selection;
   const { error } = state.course;
-  return { courseId, error };
+  return { error };
 };
 
 CoursePage.propTypes = {

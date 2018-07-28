@@ -149,3 +149,5 @@ tags
 
 # Now deployment file
 now.json
+
+.vscode

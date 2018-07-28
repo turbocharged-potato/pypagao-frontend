@@ -82,7 +82,7 @@ const selection = (state = {}, action) => {
   switch (action.type) {
     case SELECT_COURSE: {
       const { id, code } = action;
-      Object.assign(newState, { courseId: id });
+      Object.assign(newState, { courseId: id, courseCode: code });
       break;
     }
     case SELECT_SEMESTER: {

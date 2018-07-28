@@ -69,9 +69,10 @@ export const receivePapers = ({ papers }) => ({
   papers
 });
 
-export const selectCourse = ({ id }) => ({
+export const selectCourse = ({ id, code }) => ({
   type: SELECT_COURSE,
-  id
+  id,
+  code
 });
 
 export const selectSemester = ({ id }) => ({
@@ -142,6 +143,22 @@ export const searchCourse = ({ codeToSearch }) => dispatch => {
     });
 };
 
+export const findCourse = ({ id }) => dispatch => {
+  fetchAuthenticated(`${BACKEND}/courses/${id}`, {
+    method: 'GET'
+  })
+    .then(response => response.json())
+    .then(json => {
+      const { error, id, code } = json;
+      if (!error) {
+        if (!error) {
+          dispatch(selectCourse({ id, code }));
+        }
+        dispatch(receiveSearchCourse({ id, code, error }))
+      }
+    })
+};
+
 export const createCourse = ({ codeToCreate }) => dispatch => {
   const payload = { code: codeToCreate };
   fetchAuthenticated(`${BACKEND}/courses`, {
@@ -152,8 +169,19 @@ export const createCourse = ({ codeToCreate }) => dispatch => {
     .then(json => {
       const { error, id, code } = json;
       if (!error) {
-        dispatch(selectCourse({ id }));
+        dispatch(selectCourse({ id, code }));
       }
       dispatch(receiveSearchCourse({ id, code, error }));
     });
+};
+
+export const fetchSemesters = ({ courseId }) => dispatch => {
+  const payload = querystring.stringify({ course_id: courseId });
+  fetchAuthenticated(`${BACKEND}/semesters?${payload}`, {
+    method: 'GET'
+  })
+    .then(response => response.json())
+    .then(json => {
+      dispatch(receiveSemesters({ semesters: json }));
+    })
 };
